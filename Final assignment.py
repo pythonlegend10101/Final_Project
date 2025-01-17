@@ -49,12 +49,21 @@
 
 import random
 import time
-import sys
 
-enemies = ["Bear","Dragon","Hounds"]                         #enemy list
-weapons = ["Morning star","Medium sword","Dagger"]   #weapon list
+enemies: list[str] = ["Bear","Dragon","Hounds"]                         #enemy list
+weapons: list[str]= ["Shield","Medium sword","Dagger"]   #weapon list
 a,b,c=enemies       #assign list items
 x,y,z=weapons
+
+enemy: str | None = None
+weapon: str | None = None        #clear enemy and weapon and make them strings
+
+health1: int = 0
+health2: int = 0
+enemy_dmg: int = 0                  #clear all stats and make them int
+damage: int = 0
+block: int = 0
+
 
 try:
     print("You venture the woods in search of treasure...")     #context
@@ -78,8 +87,8 @@ try:
 
 except ValueError:
     print("Error, Please write letters")        #error catching 
-except Exception:
-    print(Exception)
+except Exception as e :
+    print(e)
 
 
 else:
@@ -87,7 +96,7 @@ else:
     health1 = 100                                                                #determine player health
     if enemy == "a":
         print("\nInside a immense cave you have found a",a)                                      #determine bear option(health, damage)
-        print ("The bear is a tough oponent!\n")
+        print ("The bear is a tough opponent!\n")
         time.sleep(1)
         health2= 55
         enemy_dmg=18
@@ -106,22 +115,21 @@ else:
 
     if weapon == "x":
         print("You have picked up a",x)
-        print("The morning star is a reliable weapon!\n")                                          #determine morning star option(damage, block)
-        damage = 15
-        block = 30
+        print("The shield is a reliable weapon for blocking!\n")                                          #determine morning star option(damage, block)
+        damage = 2
+        block = 40
 
     elif weapon == "y":
         print("You have picked up a",y)
         print("The medium sword is very strong!\n")                                                 #determine medium sword option(damage, block)
         damage = 20
-        block = 25
+        block = 15
 
     elif weapon == "z":
         print("You have picked up a",z)
         print("The dagger is very weak! Good luck!\n")                                              #determine dagger option(damage, block)
-        option(damage, block)
         damage = 8
-        block = 18
+        block = 10
 
     elif enemy != "a" or enemy != "b" or enemy != "c":
         print("You have typed in something incorrect")                  #if typed wrong letter 
@@ -137,7 +145,7 @@ while True:     #start loop
 
 
 
-    blocked=0   #reset blocked points
+    blocked: int = 0   #reset blocked points
 
     time.sleep(1)
 
@@ -159,9 +167,13 @@ while True:     #start loop
             print("\nYou have attacked! You damage the enemy for:",attack,"points")         #printing attack results
             print("Enemy's health bar:",health2)
 
-        if choice == "2":
+        elif choice == "2":
             blocked = random.randint(3,block)                                                             #blocking
             print("\nYou have blocked! You blocked for",blocked,"points")                       #printing block results 
+
+        else:
+            print("You typed something wrong")
+            print("You have missed the attack")
 
         if health2<=0:
             print("YOU WON!")                                                   #if enemy dies after attack
@@ -171,8 +183,22 @@ while True:     #start loop
 
         enemy_atk= random.randint(1,enemy_dmg)      #enemy attack roll
 
-        if choice == "2":
-            enemy_atk= enemy_atk-blocked                                                                                        #if blocked attack
+        if choice == "2":                                           #if blocked attack
+            if blocked < enemy_atk:
+                enemy_atk= enemy_atk-blocked            
+            else:
+                enemy_atk = 0                                       #if blocked more than attack
+                attack = random.randint(5,10)                   #attacking
+                health2 = health2-attack
+                time.sleep(1)
+                print("\nYou blocked very effectively!! You damage the enemy for:",attack,"points")         #printing attack results
+                print("Enemy's health bar:",health2)
+                time.sleep(1)
+                if health2<=0:
+                    print("YOU WON!")                                                   #if enemy dies after attack
+                    print("The enemy's health has reached",health2)            #print health and end game
+                    break
+
         health1 = health1-enemy_atk                                                                                                 #block roll
         print("\nEnemy attacking...")
         time.sleep(2)
@@ -193,6 +219,8 @@ print ("\nThank you for playing")                               #final message
 #add time sleep when printing for better readability
 #add time sleep for attacks
 #if fail to pick weapon or boss close program
+#if not chosen correct choice don't attack
+#if blocked higher than enemy damage roll to attack for 5-10 points
 
 
     
