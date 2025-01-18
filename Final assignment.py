@@ -50,17 +50,17 @@
 import random
 import time
 
-enemies: list[str] = ["Bear","Dragon","Hounds"]                         #enemy list
-weapons: list[str]= ["Shield","Medium sword","Dagger"]   #weapon list
+enemies: list[str] = ["Bear","Dragon","Hounds"]                         #enemy list  (adding :list to reduce bugs and make sure the program runs properly
+weapons: list[str]= ["Shield","Medium sword","Dagger"]                  #weapon list (str to define the types of things in the list)
 a,b,c=enemies       #assign list items
 x,y,z=weapons
 
-enemy: str | None = None
-weapon: str | None = None        #clear enemy and weapon and make them strings
+enemy: str | None = None         #to be assigned to str later (make enemy nothing for now) 
+weapon: str | None = None        #to be assigned to str later (make weapon nothing for now) 
 
 health1: int = 0
 health2: int = 0
-enemy_dmg: int = 0                  #clear all stats and make them int
+enemy_dmg: int = 0                  #stats to 0 (int to assign variables to an integer)
 damage: int = 0
 block: int = 0
 
